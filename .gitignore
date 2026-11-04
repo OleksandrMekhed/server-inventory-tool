@@ -7,3 +7,11 @@
 ### __pycache__ ###
 __pycache__/
 
+### reports ###
+reports/
+
+### broken.json.bak ###
+broken.json.bak
+
+### test_copy.json ###
+test_copy.json

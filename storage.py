@@ -5,6 +5,8 @@ import os
 import sys
 from pathlib import Path
 
+
+
 DEFAULT_FILENAME = "servers.json"
 ENV_VAR_NAME = "INVENTORY_DATAFILE"
 DEFAULT_REPORTS_DIR = "reports"
@@ -42,7 +44,7 @@ def back_up_invalid_file(path, reason):
 """
 load_servers - loads a list of servers from a JSON file. Checks if the file exists (returns an empty list if it does not). 
 Performs safe reading and parsing of the JSON. Catches formatting errors JSONDecodeError and invokes a backup function. 
-Verifies that the loaded data is a valid list; otherwise, it also triggers the backup.
+Verifies that the loaded data is a valid list, it also triggers the backup.
 """
 def load_servers(file_path):
     path = Path(file_path)
@@ -82,3 +84,21 @@ def save_servers(file_path, servers):
 
 
 
+"""
+export_to_csv - exports the current list of servers to a CSV report. Creates a directory for reports, if it does not 
+already exist. Generates a unique filename using the current date and time in YYYY-MM-DD_HH:MM format. Writes the data 
+using csv.DictWriter with predefined headers CSV_FIELDS_NAMES. Returns the full path to the created CSV file.
+"""
+def export_to_csv(servers, reports_dir=DEFAULT_REPORTS_DIR):
+    reports_path = Path(reports_dir)
+    reports_path.mkdir(parents=True, exist_ok=True)
+
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M")
+    report_path = reports_path / f"inventory_{timestamp}.csv"
+
+    with open(report_path, "w", newline="", encoding="utf-8") as file:
+        wr = csv.DictWriter(file, fieldnames=CSV_FIELDS_NAMES)
+        wr.writeheader()
+        wr.writerows(servers)
+
+    return report_path
