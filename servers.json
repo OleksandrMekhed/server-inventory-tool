@@ -1,0 +1,34 @@
+[
+  {
+    "name": "web01",
+    "address": "example.com",
+    "environment": "prod",
+    "role": "web-server",
+    "status": "unknown",
+    "last-checked": ""
+  },
+  {
+    "name": "db01",
+    "address": "127.0.0.1",
+    "environment": "prod",
+    "role": "database",
+    "status": "unknown",
+    "last_checked": ""
+  },
+  {
+    "name": "test01",
+    "address": "192.0.2.10",
+    "environment": "test",
+    "role": "test-server",
+    "status": "unknown",
+    "last_checked": ""
+  },
+  {
+    "name": "dev01",
+    "address": "localhost",
+    "environment": "dev",
+    "role": "development-server",
+    "status": "unknown",
+    "last_checked": ""
+  }
+]
