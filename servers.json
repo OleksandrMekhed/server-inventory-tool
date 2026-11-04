@@ -5,7 +5,7 @@
     "environment": "prod",
     "role": "web-server",
     "status": "unknown",
-    "last-checked": ""
+    "last_checked": ""
   },
   {
     "name": "db01",
