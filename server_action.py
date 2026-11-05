@@ -65,3 +65,18 @@ def filter_by_environment(servers, environment):
 
 
 
+def ask_environment():
+    """
+    Interactively prompts the user for the environment and validates their input. Runs in a loop until the user enters
+    one of the allowed values from VALID_ENVIRONMENTS.
+    """
+    while True:
+        env = input("Enter environment (dev/test/prod): ").strip()
+        if env in VALID_ENVIRONMENTS:
+            return env
+        else:
+            print("Invalid environment.")
+
+
+
+
