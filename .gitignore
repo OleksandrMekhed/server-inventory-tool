@@ -10,8 +10,6 @@ __pycache__/
 ### reports ###
 reports/
 
-### broken.json.bak ###
+### *.bak ###
 *.bak
 
-### test_copy.json ###
-test_copy.json

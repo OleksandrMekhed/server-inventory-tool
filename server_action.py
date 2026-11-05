@@ -80,3 +80,62 @@ def ask_environment():
 
 
 
+def add_server(servers):
+    """
+    Adds a new server to the master list, checking for name uniqueness. Prompts for the name, address, environment
+    via ask_environment and role. Sets the initial status to 'unknown' and the check time to empty. Adds the object to
+    the list and returns True upon success.
+    """
+    name = input("Enter server name: ").strip()
+    if not name:
+        print("Invalid server name.")
+        return False
+
+    if find_server(servers, name) is not None:
+        print(f"Server [{name}] already exists.")
+        return False
+
+    address = input("Enter server address: ").strip()
+    environment = ask_environment()
+    role = input("Enter server role: ").strip()
+
+    server = {
+        "name": name,
+        "address": address,
+        "environment": environment,
+        "role": role,
+        "status": "unknown",
+        "last_checked": ""
+    }
+    servers.append(server)
+    print(f"Server [{name}] added.")
+    return True
+
+
+
+
+def delete_server(servers):
+    """
+    Removes a server from the list by name with additional safeguards. Verifies the existence of the server. If the
+    server environment is 'prod', it requires explicit confirmation by entering 'Y', to prevent the accidental
+    deletion of critical production infrastructure.
+    """
+    name = input("Enter server name: ").strip()
+    if not name:
+        print("Server name cannot be empty.")
+        return False
+
+    server = find_server(servers, name)
+    if server is None:
+        print(f"Server [{name}] not found.")
+        return False
+
+    if server["environment"] == "prod":
+        answer = input("Server in environment - [prod]! Enter [y] to confirm delete: ").strip().lower()
+        if answer != "y":
+            print("Deletion cancelled.")
+            return False
+
+    servers.remove(server)
+    print(f"Server [{name}] removed.")
+    return True
