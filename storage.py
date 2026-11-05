@@ -7,6 +7,7 @@ from pathlib import Path
 
 
 
+
 DEFAULT_FILENAME = "servers.json"
 ENV_VAR_NAME = "INVENTORY_DATAFILE"
 DEFAULT_REPORTS_DIR = "reports"
@@ -43,6 +44,7 @@ def back_up_invalid_file(path, reason):
 
 
 
+
 def load_servers(file_path):
     """
     load_servers - loads a list of servers from a JSON file. Checks if the file exists (returns an empty list if it does not).
@@ -67,6 +69,7 @@ def load_servers(file_path):
 
 
 
+
 def save_servers(file_path, servers):
     """
     save_servers - saves the current list of servers back to a JSON file. Automatically creates missing parent directories
@@ -86,12 +89,12 @@ def save_servers(file_path, servers):
 
 
 
-"""
-export_to_csv - exports the current list of servers to a CSV report. Creates a directory for reports, if it does not 
-already exist. Generates a unique filename using the current date and time in YYYY-MM-DD_HH:MM format. Writes the data 
-using csv.DictWriter with predefined headers CSV_FIELDS_NAMES. Returns the full path to the created CSV file.
-"""
 def export_to_csv(servers, reports_dir=DEFAULT_REPORTS_DIR):
+    """
+    export_to_csv - exports the current list of servers to a CSV report. Creates a directory for reports, if it does not
+    already exist. Generates a unique filename using the current date and time in YYYY-MM-DD_HH:MM format. Writes the data
+    using csv.DictWriter with predefined headers CSV_FIELDS_NAMES. Returns the full path to the created CSV file.
+    """
     reports_path = Path(reports_dir)
     reports_path.mkdir(parents=True, exist_ok=True)
 

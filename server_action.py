@@ -2,6 +2,8 @@ VALID_ENVIRONMENTS = ["dev", "test", "prod"]
 LINE_SEPARATOR = "-" * 110
 
 
+
+
 def print_servers(servers):
     """
     Displays a list of servers in a neat table with fixed column widths. Checks if there are any servers in the list,
@@ -33,5 +35,33 @@ def print_servers(servers):
         )
     print(LINE_SEPARATOR)
     print()
+
+
+
+
+def find_server(servers, name):
+    """
+    Searches for a server in the list by its name.  Returns the found server dictionary, or None if the server is not found.
+    """
+    for server in servers:
+        if server["name"] == name:
+            return server
+    return None
+
+
+
+
+def filter_by_environment(servers, environment):
+    """
+    Filters the list of servers by the specified environment - 'dev', 'prod' or 'test'. Returns a new list containing
+    only the servers with the matching environment.
+    """
+    new_servers = []
+    for server in servers:
+        if server["environment"] == environment:
+            new_servers.append(server)
+    return new_servers
+
+
 
 
