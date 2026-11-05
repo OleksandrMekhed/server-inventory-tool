@@ -11,7 +11,7 @@ __pycache__/
 reports/
 
 ### broken.json.bak ###
-broken.json.bak
+*.bak
 
 ### test_copy.json ###
 test_copy.json
