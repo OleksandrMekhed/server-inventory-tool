@@ -25,4 +25,23 @@ def ping_server(address):
 
 
 
+def check_server(server):
+    """
+    Checks the status of a specific server from the provided dictionary. Calls the ping_server function to verify the
+    server address. Updates the servers status in the dictionary to "up" (available) or "down" (unavailable).
+    Automatically updates the last_checked field with the current time in the format YYYY-MM-DD_HHMM.
+    """
+    is_up = ping_server(server["address"])
+
+    if is_up:
+        server["status"] = "up"
+    else:
+        server["status"] = "down"
+
+    server["last_checked"] = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
+
+    return is_up
+
+
+
 
