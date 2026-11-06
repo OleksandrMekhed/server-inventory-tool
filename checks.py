@@ -45,3 +45,14 @@ def check_server(server):
 
 
 
+def check_all_servers(servers):
+    """
+    Performs a bulk check of all servers from the inventory list. Sequentially calls check_server for each server.
+    Collects the check results into a list and uses the all() function to determine whether all servers are operational.
+    """
+    result = []
+
+    for server in servers:
+        result.append(check_server(server))
+
+    return all(result)
