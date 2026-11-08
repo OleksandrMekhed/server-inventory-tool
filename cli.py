@@ -24,11 +24,13 @@ def build_parser():
     pars.add_argument(
         "--environment",
         default=None,
+        type=str.lower,
         help="Show server environment (prod, test, dev)",
     )
     pars.add_argument(
         "--check",
         metavar="NAME",
+        type=str.lower,
         help="Specify the name of a specific server to check",
     )
     pars.add_argument(
