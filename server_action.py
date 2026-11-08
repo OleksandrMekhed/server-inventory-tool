@@ -71,7 +71,7 @@ def ask_environment():
     one of the allowed values from VALID_ENVIRONMENTS.
     """
     while True:
-        env = input("Enter environment (dev/test/prod): ").strip()
+        env = input("Enter environment (dev/test/prod): ").strip().lower()
         if env in VALID_ENVIRONMENTS:
             return env
         else:
@@ -80,24 +80,50 @@ def ask_environment():
 
 
 
+def ask_text(prompt, lowercase=False):
+    """
+    ask_text() function ask the user for text and if necessary, convert it to lowercase.
+    """
+    while True:
+        text = input(prompt).strip()
+        if text:
+            return text.lower() if lowercase else text
+
+        print("Input cannot be empty.")
+
+
+
+
+def ask_name(prompt):
+    """
+    ask_name() function check the name for the presence of any whitespace characters, including tabs using
+    len(name.split()) > 1, this is more reliable than a simple search using `in`.
+    """
+    while True:
+        name = ask_text(prompt, lowercase=True)
+        if len(name.split()) > 1:
+            print("Server name cannot contain spaces or whitespace characters. Try again.")
+            continue
+        return name
+
+
+
+
 def add_server(servers):
     """
-    Adds a new server to the master list, checking for name uniqueness. Prompts for the name, address, environment
-    via ask_environment and role. Sets the initial status to 'unknown' and the check time to empty. Adds the object to
-    the list and returns True upon success.
+    Adds a new server to the master list, checking for name uniqueness. Prompts for the name via ask_name, address
+    via ask_text, environment via ask_environment and role via ask_text. Sets the initial status to 'unknown' and
+    the check time to empty. Adds the object to the list and returns True upon success.
     """
-    name = input("Enter server name: ").strip()
-    if not name:
-        print("Invalid server name.")
-        return False
+    name = ask_name("Enter server name: ")
 
     if find_server(servers, name) is not None:
         print(f"Server [{name}] already exists.")
         return False
 
-    address = input("Enter server address: ").strip()
+    address = ask_text("Enter server address: ")
     environment = ask_environment()
-    role = input("Enter server role: ").strip()
+    role = ask_text("Enter server role: ")
 
     server = {
         "name": name,
@@ -116,14 +142,11 @@ def add_server(servers):
 
 def delete_server(servers):
     """
-    Removes a server from the list by name with additional safeguards. Verifies the existence of the server. If the
-    server environment is 'prod', it requires explicit confirmation by entering 'Y', to prevent the accidental
-    deletion of critical production infrastructure.
+    Removes a server from the list by prompt name via ask_name with additional safeguards. Verifies the existence of
+    the server. If the server environment is 'prod', it requires explicit confirmation by entering 'Y', to prevent
+    the accidental deletion of critical production infrastructure.
     """
-    name = input("Enter server name: ").strip()
-    if not name:
-        print("Server name cannot be empty.")
-        return False
+    name = ask_name("Enter server name: ")
 
     server = find_server(servers, name)
     if server is None:
