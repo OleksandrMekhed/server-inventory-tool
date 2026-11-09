@@ -6,7 +6,8 @@ from server_action import (
     delete_server,
     find_server,
     ask_environment,
-    filter_by_environment
+    filter_by_environment,
+    ask_name
 )
 
 
@@ -44,7 +45,7 @@ def show_menu(file_path, servers):
             print_servers(filtered)
 
         elif choice == "3":
-            name = input("Enter your server name: ").strip()
+            name = ask_name("Enter your server name: ")
             server = find_server(servers, name)
             if server is None:
                 print(f"Server [{name}] not found.")
