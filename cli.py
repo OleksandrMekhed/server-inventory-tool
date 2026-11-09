@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+
 import checks
 import menu
 import storage
@@ -12,7 +13,7 @@ import server_action
 def build_parser():
     """
     Command line argument parser configuration. This defines flags (--list, --environment, --list --environment, --check,
-    --check-all, --export), so that the program understands exactly what the user wants it to do via the terminal.
+    --check-all, --export, --verbose), so that the program understands exactly what the user wants it to do via the terminal.
     """
     pars = argparse.ArgumentParser(description="Server management and status checking")
 
@@ -43,6 +44,11 @@ def build_parser():
         action="store_true",
         help="Export results"
     )
+    pars.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print extra information (data file, ping command)",
+    )
 
     return pars
 
@@ -57,6 +63,8 @@ def parser_cli():
     """
     args = build_parser().parse_args()
     file_path = storage.get_data_file_path()
+    if args.verbose:
+        print(f"Using data file: {file_path}", file=sys.stderr)
     servers = storage.load_servers(file_path)
 
     if args.list or args.environment:
@@ -71,14 +79,14 @@ def parser_cli():
             print(f"Server [{args.check}] not found.", file=sys.stderr)
             sys.exit(1)
 
-        is_up = checks.check_server(server)
+        is_up = checks.check_server(server, verbose=args.verbose)
         storage.save_servers(file_path, servers)
 
         print(f"Server [{server['name']}] is {server['status']}.")
         sys.exit(0 if is_up else 1)
 
     elif args.check_all:
-        all_up = checks.check_all_servers(servers)
+        all_up = checks.check_all_servers(servers, verbose=args.verbose)
         storage.save_servers(file_path, servers)
         server_action.print_servers(servers)
         sys.exit(0 if all_up else 1)
