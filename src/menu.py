@@ -1,6 +1,6 @@
-import checks
-import storage
-from server_action import (
+from src import checks
+from src import storage
+from src.server_action import (
     print_servers,
     add_server,
     delete_server,

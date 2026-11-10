@@ -1,4 +1,5 @@
-from cli import parser_cli
+from src.cli import parser_cli
+
 
 def main():
     """

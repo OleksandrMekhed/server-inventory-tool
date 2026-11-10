@@ -2,10 +2,10 @@ import argparse
 import sys
 
 
-import checks
-import menu
-import storage
-import server_action
+from src import checks
+from src import menu
+from src import storage
+from src import server_action
 
 
 
