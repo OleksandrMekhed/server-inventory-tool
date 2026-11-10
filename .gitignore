@@ -13,3 +13,6 @@ reports/
 ### *.bak ###
 *.bak
 
+### .pytest_cache ###
+.pytest_cache/
+
