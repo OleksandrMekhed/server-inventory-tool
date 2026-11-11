@@ -97,3 +97,32 @@ def test_find_server_not_found():
 
 
 
+def test_filter_by_environment():
+    """
+    filter_by_environment correctly returns only servers belonging to the specified environment. Test provides a list
+    of servers distributed across multiple environments - prod, dev. Filtered result contains precisely the
+    expected number of matching items. Every server returned in the list matches environment - prod.
+    """
+    servers = [
+        {"name": "web01", "environment": "prod"},
+        {"name": "web02", "environment": "dev"},
+        {"name": "web03", "environment": "prod"},
+    ]
+
+    result = server_action.filter_by_environment(servers, "prod")
+
+    assert len(result) == 2
+    assert all(server["environment"] == "prod" for server in result)
+
+
+
+
+def test_filter_by_environment_no_match():
+    """
+    filter_by_environment returns an empty list when no servers match the requested environment. Test specifies an
+    environment - test, from the provided server list. Filtering logic handles non-matching queries safely without
+    raising exceptions. An empty list is correctly returned.
+    """
+    servers = [{"name": "web01", "environment": "prod"}]
+
+    assert server_action.filter_by_environment(servers, "test") == []
