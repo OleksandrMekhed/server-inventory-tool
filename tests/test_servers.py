@@ -34,3 +34,34 @@ def test_load_servers_missing_file_returns_empty_list(tmp_path):
 
 
 
+def test_load_servers_corrupted_file_is_backed_up(tmp_path):
+    """
+    Test that load_servers safely handles corrupted JSON files by creating a backup and recovering. Test writes
+    invalid JSON syntax into a temporary file. Function catches the parsing error and safely returns an empty list and
+    automatically creates a backup file. Original corrupted file is cleared.
+    """
+    data_file = tmp_path / "servers.json"
+    data_file.write_text("{{{", encoding="utf-8")
+
+    assert storage.load_servers(data_file) == []
+    assert (tmp_path / "servers.json.bak").exists()
+    assert not data_file.exists()
+
+
+
+
+def test_save_and_load_round_trip(tmp_path):
+    """
+    This test defines sample server data, serializes and writes it to a temporary file via save_servers,
+    and then reads it back using load_servers. Data persistence functions correctly without data loss or corruption.
+    """
+    data_file = tmp_path / "servers.json"
+    servers = [{"name": "db01", "address": "127.0.0.1", "environment": "prod"}]
+
+    storage.save_servers(data_file, servers)
+
+    assert storage.load_servers(data_file) == servers
+
+
+
+
