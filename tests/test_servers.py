@@ -65,3 +65,35 @@ def test_save_and_load_round_trip(tmp_path):
 
 
 
+def test_find_server():
+    """
+    find_server successfully locates and returns the correct server dictionary by its name, test provides a list of
+    sample server dictionaries. Function correctly searches for a matching server name for example - web01 and
+    returns the correct dictionary object rather than None.
+    """
+    servers = [
+        {"name": "db01", "address": "10.0.0.5"},
+        {"name": "web01", "address": "10.0.0.6"},
+    ]
+
+    result = server_action.find_server(servers, "web01")
+
+    assert result is not None
+    assert result["address"] == "10.0.0.6"
+
+
+
+
+def test_find_server_not_found():
+    """
+    find_server gracefully handles searches for non-existent servers. Test provides a server list that does not contain
+    the target name. Function checks all available records without raising errors, returns None when no matching
+    server name is found.
+    """
+    servers = [{"name": "db01", "address": "10.0.0.5"}]
+
+    assert server_action.find_server(servers, "test00") is None
+
+
+
+
